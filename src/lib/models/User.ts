@@ -25,9 +25,6 @@ const userSchema = new Schema({
     type: String,
     default: false
   }
-  // data :{
-  //   type: [Object]
-  // }
 });
 
 export interface UserDocument extends Document {
