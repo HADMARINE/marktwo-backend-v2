@@ -26,8 +26,6 @@ router.get('/:type', async (req, res, next) => {
   }
 });
 
-router.get('/utility', (req, res, next) => {});
-
-router.post('/comsil');
+router.post('/:type', async (req, res, next) => {});
 
 module.exports = router;
