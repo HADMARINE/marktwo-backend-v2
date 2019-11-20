@@ -43,7 +43,7 @@ router.post('/', async (req: any, res: any, next: any) => {
 
     const jwtSettings: object = {
       expiresIn: tokenExpireTime,
-      issuer: process.env.NODE_ENV === 'development' ? '*' : 'dodoli.net'
+      issuer: process.env.NODE_ENV === 'development' ? '*' : 'marktwo.net'
     };
 
     const result: string = jwt.sign(
