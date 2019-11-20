@@ -17,6 +17,10 @@ const dataSchema = new Schema({
     type: String,
     required: true
   },
+  maclink: {
+    type: String,
+    default: null
+  },
   type: {
     type: String,
     required: true
@@ -28,6 +32,7 @@ export interface DataDocument extends Document {
   content: string;
   img: string;
   link: string;
+  maclink: string;
   type: string;
 }
 
