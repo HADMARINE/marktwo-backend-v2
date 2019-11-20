@@ -32,7 +32,8 @@ export interface UserDocument extends Document {
   password: string;
   nickname: string;
   enckey: string;
-  // data: [Object];
+  email: string;
+  isAdmin: boolean;
 }
 
 const User: Model<UserDocument> = model('user', userSchema);
