@@ -20,6 +20,10 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true
+  },
+  isAdmin: {
+    type: String,
+    default: false
   }
   // data :{
   //   type: [Object]
