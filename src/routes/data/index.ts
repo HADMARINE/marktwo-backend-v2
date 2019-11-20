@@ -7,12 +7,15 @@ import throwError from '../../lib/throwError';
 
 router.use(bodyParser.json());
 
-router.get('/comsil', async (req, res, next) => {
+router.get('/:type', async (req, res, next) => {
+  const type = req.params.type;
+  let query = { type };
+
   try {
     let data: any;
     try {
       // tslint:disable-next-line: await-promise
-      data = await Data.find({ type: 'comsil' }).sort('title');
+      data = await Data.find(type).sort('title');
     } catch (e) {
       return throwError('데이터를 불러오는 데 실패했습니다.', 500);
     }
