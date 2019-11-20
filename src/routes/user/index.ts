@@ -110,19 +110,27 @@ router.post('/data', async (req, res, next) => {
   const token: any = req.headers['x-access-token'];
 
   try {
-    const tokenValue: any =
-      jwt.verify(token, process.env.TOKEN_KEY || 'tokenkey') || JSON.parse('');
+    let tokenValue: any;
+    try {
+      tokenValue =
+        jwt.verify(token, process.env.TOKEN_KEY || 'tokenkey') ||
+        JSON.parse('');
+    } catch (e) {
+      return throwError('토큰 검증에 실패했습니다', 403);
+    }
 
     // tslint:disable-next-line: await-promise
     const user: any = await User.findOne({ uid: tokenValue.userId }).select(
-      'uid nickname email data'
+      'uid nickname email'
     );
 
-    console.log(user.uid);
+    if (!user) {
+      return throwError('유저가 존재하지 않습니다.', 404);
+    }
 
     res.status(200).json(user);
   } catch (e) {
-    return throwError('데이터를 읽어오는 데 실패했습니다.', 403);
+    next(e);
   }
 });
 
