@@ -16,6 +16,10 @@ const dataSchema = new Schema({
   link: {
     type: String,
     required: true
+  },
+  type: {
+    type: String,
+    required: true
   }
 });
 
@@ -24,6 +28,7 @@ export interface DataDocument extends Document {
   content: string;
   img: string;
   link: string;
+  type: string;
 }
 
 const Data: Model<DataDocument> = model('data', dataSchema);
