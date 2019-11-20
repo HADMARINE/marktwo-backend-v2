@@ -126,4 +126,67 @@ router.post('/data', async (req, res, next) => {
   }
 });
 
+function getRandomArbitrary(min: number, max: number) {
+  return Math.random() * (max - min) + min;
+}
+
+router.post('/find/password', async (req, res, next) => {
+  try {
+    const { uid, publicip, email } = req.body;
+
+    let user: any;
+    try {
+      user = await User.findOne({ uid });
+    } catch (e) {
+      return throwError('데이터를 불러오는 데 실패했습니다.', 404);
+    }
+
+    const randomNumber: number = getRandomArbitrary(100000, 1000000);
+
+    const sendText =
+      '인증번호는 [ ' +
+      randomNumber +
+      ' ] 입니다. 코드는 5분간 유효합니다. 본인이 요청하지 않았다면 이 요청을 무시해도 됩니다. ';
+
+    const payload: object = {
+      userId: uid,
+      publicip,
+      code: randomNumber
+    };
+
+    const tokenExpireTime: number = 300; //5min
+
+    const jwtSettings: object = {
+      expiresIn: tokenExpireTime,
+      issuer: process.env.NODE_ENV === 'development' ? '*' : 'marktwo.net'
+    };
+
+    const verifyToken = jwt.sign(payload, randomNumber.toString(), jwtSettings);
+
+    const mailgun = require('mailgun-js');
+    const DOMAIN = process.env.MAILGUN_DOMAIN || 'mail.marktwo.net';
+    const mg = mailgun({
+      apiKey: process.env.MAILGUN_APIKEY || 'null',
+      domain: DOMAIN
+    });
+    //  현재 미구현
+    const data = {
+      from: process.env.MAILGUN_EMAIL_ADDRESS,
+      to: user.email,
+      subject: 'MARKTWO 비밀번호 복구 인증키',
+      text: ''
+    };
+    mg.messages().send(data, function(error: any, body: any) {
+      if (error) {
+        return throwError(error, 500);
+      }
+      console.log(body);
+    });
+
+    res.json({ token: verifyToken });
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = router;
