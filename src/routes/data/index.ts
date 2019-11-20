@@ -1,16 +1,28 @@
 import express from 'express';
 const router = express.Router();
 
+import Data, { DataDocument } from '../../lib/models/Data';
 import bodyParser from 'body-parser';
 import throwError from '../../lib/throwError';
 
 router.use(bodyParser.json());
 
-router.get('/comsil', (req, res, next) => {
-  const date: Date = new Date();
-  res.send(date);
+router.get('/comsil', async (req, res, next) => {
+  try {
+    let data: any;
+    try {
+      // tslint:disable-next-line: await-promise
+      data = await Data.find({ type: 'comsil' }).sort('title');
+    } catch (e) {
+      return throwError('데이터를 불러오는 데 실패했습니다.', 500);
+    }
+  } catch (e) {
+    next(e);
+  }
 });
 
 router.get('/utility', (req, res, next) => {});
+
+router.post('/comsil');
 
 module.exports = router;
