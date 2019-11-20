@@ -189,4 +189,31 @@ router.post('/find/password', async (req, res, next) => {
   }
 });
 
+router.post('/find/password/verify', (req, res, next) => {
+  const userPublicIp: any = req.body.publicip;
+  const { passcode } = req.body;
+  const token: any = req.headers['x-access-token'];
+  try {
+    if (!userPublicIp || !passcode || !token) {
+      return throwError('필수 항목이 입력되지 않았습니다.', 403);
+    }
+
+    let tokenValue: any;
+
+    try {
+      tokenValue = jwt.verify(token, passcode);
+    } catch (e) {
+      throwError('토큰 검증에 실패했습니다.', 403);
+    }
+    if (tokenValue.publicip !== userPublicIp) {
+      throwError('토큰 검증에 실패했습니다.', 403);
+    }
+    res.json({ verified: true });
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post;
+
 module.exports = router;
