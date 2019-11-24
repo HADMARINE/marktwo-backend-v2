@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'dodoli-backend',
+      name: 'marktwo-backend',
       script: './index.ts',
       env: {
         NODE_ENV: 'production'
