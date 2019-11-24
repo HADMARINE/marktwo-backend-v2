@@ -9,7 +9,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  nickname: {
+  name: {
     type: String,
     required: true
   },
@@ -30,7 +30,7 @@ const userSchema = new Schema({
 export interface UserDocument extends Document {
   uid: string;
   password: string;
-  nickname: string;
+  name: string;
   enckey: string;
   email: string;
   isAdmin: boolean;

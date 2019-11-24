@@ -19,14 +19,14 @@ router.get('/', (req: any, res: any) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { uid, password, nickname, email } = req.body;
-    if (!uid || !password || !nickname || !email) {
+    const { uid, password, name, email } = req.body;
+    if (!uid || !password || !name || !email) {
       return throwError('필수 항목이 입력되지 않았습니다', 400);
     }
     // tslint:disable-next-line: await-promise
     const duplicateUserVerify: any = await User.findOne().or([
       { uid },
-      { nickname },
+      { name },
       { email }
     ]);
     if (duplicateUserVerify) {
@@ -52,7 +52,7 @@ router.post('/', async (req, res, next) => {
     const user = new User({
       uid: uid,
       password: key,
-      nickname: nickname,
+      name: name,
       enckey: buf,
       email: email,
       data: []
@@ -81,7 +81,7 @@ router.post('/overlap', async (req, res, next) => {
     if (!type || content === undefined) {
       return throwError('필수 항목이 입력되지 않았습니다.', 400);
     }
-    const typeArray: Array<String> = ['id', 'nickname', 'email'];
+    const typeArray: Array<String> = ['id', 'email'];
 
     if (typeArray.indexOf(type) === -1) {
       return throwError('입력 값이 잘못되었습니다', 400);
@@ -121,7 +121,7 @@ router.post('/data', async (req, res, next) => {
 
     // tslint:disable-next-line: await-promise
     const user: any = await User.findOne({ uid: tokenValue.userId }).select(
-      'uid nickname email'
+      'uid name email'
     );
 
     if (!user) {
