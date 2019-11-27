@@ -231,11 +231,12 @@ router.post('/verify',(req,res,next)=> {
     try {
       tokenValue = jwt.verify(token,process.env.TOKEN_KEY || 'tokenkey');
     } catch (error) {
-      return throwError('토큰 검증에 실패했습니다. ',403);
+      return throwError('토큰 검증에 실패했습니다.',403);
     }
 
+
     if(tokenValue.userip !== userip ){
-      return throwError("토큰 검증에 실패했습니다.",403)
+      return throwError("아이피가 변경되어 로그아웃 합니다.",403)
     }
 
     res.status(200).json({state:'OK'})
