@@ -18,6 +18,7 @@ router.post('/', async (req: any, res: any, next: any) => {
 
     const { uid, password, userip } = req.body;
     if (!uid || !password || !userip) {
+      console.log(uid,password,userip)
       throwError('필수 항목이 입력되지 않았습니다.', 400);
     }
 
@@ -60,7 +61,7 @@ router.post('/', async (req: any, res: any, next: any) => {
 router.post('/verify', async (req, res, next) => {
   try {
     const token: any = req.headers['x-access-token'];
-    const userPublicIp: any = req.body.publicip;
+    const userPublicIp: any = req.body.userip;
 
     if (!token || !userPublicIp) {
       return throwError('필수 항목이 입력되지 않았습니다.', 400);
@@ -69,7 +70,7 @@ router.post('/verify', async (req, res, next) => {
     let tokenValue: any;
     try {
       tokenValue = jwt.verify(token, process.env.TOKEN_KEY || 'tokenkey');
-      if (tokenValue.publicip !== userPublicIp) {
+      if (tokenValue.userip !== userPublicIp) {
         return throwError('토큰 검증에 실패했습니다.', 403);
       }
     } catch (e) {
