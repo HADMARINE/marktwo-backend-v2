@@ -16,8 +16,8 @@ router.post('/', async (req: any, res: any, next: any) => {
   try {
     const pbkdf2: Function = util.promisify(crypto.pbkdf2);
 
-    const { uid, password, publicip } = req.body;
-    if (!uid || !password || !publicip) {
+    const { uid, password, userip } = req.body;
+    if (!uid || !password || !userip) {
       throwError('필수 항목이 입력되지 않았습니다.', 400);
     }
 
@@ -37,7 +37,7 @@ router.post('/', async (req: any, res: any, next: any) => {
       userId: user.uid,
       name: user.name,
       _id: user._id,
-      publicip
+      userip
     };
     const tokenExpireTime: number = 10800;
 
