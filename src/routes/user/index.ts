@@ -12,10 +12,6 @@ import User, { UserDocument } from '../../lib/models/User';
 
 router.use(bodyParser.json());
 
-router.get('/', (req: any, res: any) => {
-  const date: Date = new Date();
-  res.send(date);
-});
 
 router.post('/', async (req, res, next) => {
   try {
@@ -222,6 +218,32 @@ router.post('/find/password/verify', (req, res, next) => {
   }
 });
 
-router.post;
+router.post('/verify',(req,res,next)=> {
+  try {
+    const token:any = req.headers['x-access-token'];
+    const {userip} = req.body;
+
+    if(!token || !userip){
+      return throwError("필수 정보가 입력되지 않았습니다.",400);
+    }
+
+    let tokenValue:any;
+    try {
+      tokenValue = jwt.verify(token,process.env.TOKEN_KEY || 'tokenkey');
+    } catch (error) {
+      return throwError('토큰 검증에 실패했습니다. ',403);
+    }
+
+    if(tokenValue.userip !== userip ){
+      return throwError("토큰 검증에 실패했습니다.",403)
+    }
+
+    res.status(200).json({state:'OK'})
+
+
+  } catch (error) {
+    next(error)
+  }
+});
 
 module.exports = router;
