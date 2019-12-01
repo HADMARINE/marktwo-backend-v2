@@ -14,7 +14,6 @@ router.get('/:type', async (req, res, next) => {
 
   try {
     let data: any;
-    console.log('data query')
     try {
       // tslint:disable-next-line: await-promise
       data = await Data.find(query).sort('title');
