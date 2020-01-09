@@ -8,7 +8,7 @@ router.use(bodyParser.json());
 
 router.get('/', (req: any, res: any) => {
   const date: Date = new Date();
-  res.send(date);
+  res.send(date + ' - MARKTWO-BACKEND-V2');
 });
 
 module.exports = router;
