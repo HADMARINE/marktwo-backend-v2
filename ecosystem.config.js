@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'marktwo-backend',
-      script: './dist/marktwo.js',
+      script: './dist/index.js',
       env: {
         NODE_ENV: 'production'
       },
