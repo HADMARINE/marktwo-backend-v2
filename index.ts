@@ -1,7 +1,8 @@
 import http from 'http';
 const app = require('./app');
 const connectDB = require('./src/lib/connectDB');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 import * as express from 'express';
 const router = express.Router();
