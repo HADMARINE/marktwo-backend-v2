@@ -1,4 +1,4 @@
-import http from 'http';
+const http = require('http');
 const app = require('./app');
 const connectDB = require('./src/lib/connectDB');
 const path = require('path');
