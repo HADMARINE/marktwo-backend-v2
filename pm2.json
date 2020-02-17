@@ -1,0 +1,11 @@
+{
+  "apps": [
+    {
+      "name": "marktwo-backend-v2",
+      "exec_mode": "cluster",
+      "instances": "max",
+      "script": "./index.ts",
+      "interpreter": "ts-node"
+    }
+  ]
+}
