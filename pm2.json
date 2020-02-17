@@ -5,7 +5,8 @@
       "exec_mode": "cluster",
       "instances": "max",
       "script": "./index.ts",
-      "interpreter": "ts-node"
+      "interpreter": "ts-node",
+      "watch": true
     }
   ]
 }
