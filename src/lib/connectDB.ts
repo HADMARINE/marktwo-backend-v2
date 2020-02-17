@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 require('dotenv').config();
 
-const MONGO_URL = process.env.DB_HOST;
+const MONGO_URL = 'mongodb://' + process.env.DB_HOST;
 const env = process.env.NODE_ENV || 'development';
 
 const auth: any = {
@@ -9,9 +9,10 @@ const auth: any = {
   pass: process.env.DB_PASS
 };
 
-let mongoURL: any = `${MONGO_URL}/${process.env.DB_NAME}`;
+const mongoURL: any = MONGO_URL;
+let dbName: any = process.env.DB_NAME;
 
-if (env !== 'production') mongoURL += `_${env}`;
+if (env !== 'production') dbName += `_${env}`;
 if (env === 'development') {
   mongoose.set('debug', true);
 }
@@ -19,5 +20,7 @@ if (env === 'development') {
 module.exports = () =>
   mongoose.connect(mongoURL, {
     ...auth,
-    auth: { authdb: process.env.DB_NAME }
+    dbName,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   });
