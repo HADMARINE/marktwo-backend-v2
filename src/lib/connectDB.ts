@@ -9,7 +9,7 @@ const auth: any = {
   pass: process.env.DB_PASS
 };
 
-let mongoURL: any = MONGO_URL;
+let mongoURL: any = `${MONGO_URL}/${process.env.DB_NAME}`;
 
 if (env !== 'production') mongoURL += `_${env}`;
 if (env === 'development') {
@@ -19,5 +19,5 @@ if (env === 'development') {
 module.exports = () =>
   mongoose.connect(mongoURL, {
     ...auth,
-    auth: { authdb: 'admin' }
+    auth: { authdb: process.env.DB_NAME }
   });
