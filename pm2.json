@@ -4,9 +4,14 @@
       "name": "marktwo-backend-v2",
       "exec_mode": "cluster",
       "instances": "max",
-      "script": "./index.ts",
-      "interpreter": "ts-node",
-      "watch": true
+      "script": "./dist/index.js",
+      "watch": true,
+      "env": {
+        "ENV": "development"
+      },
+      "env_production": {
+        "ENV": "production"
+      }
     }
   ]
 }

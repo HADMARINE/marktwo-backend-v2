@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-import throwError from './src/lib/throwError';
-import getRoutes from './src/lib/getRoutes';
+import throwError from './lib/throwError';
+import getRoutes from './lib/getRoutes';
 
 const routes = getRoutes();
 

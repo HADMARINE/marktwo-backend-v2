@@ -8,16 +8,17 @@ function getPathRoutes(routePath = '/'): any {
   const datas = [];
 
   for (const f of dir) {
-    const file = path.join(routesPath, f);
+    const file: any = path.join(routesPath, f);
     const stat = fs.statSync(file);
     if (stat.isDirectory()) {
       datas.push(...getPathRoutes(`${routePath.replace(/\/$/, '')}/${f}`));
       continue;
     }
-    if (!file.match(/\.ts$/)) {
+    if (!file.match(/(.ts|.js)$/)) {
       continue;
     }
     const router = require(file);
+
     if (Object.getPrototypeOf(router) !== Router) {
       continue;
     }
@@ -29,6 +30,7 @@ function getPathRoutes(routePath = '/'): any {
   }
   return datas;
 }
+
 function getRoutes() {
   return getPathRoutes();
 }

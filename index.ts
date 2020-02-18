@@ -1,5 +1,5 @@
 const http = require('http');
-const app = require('./app');
+const app = require('./src/app');
 const connectDB = require('./src/lib/connectDB');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
