@@ -11,7 +11,7 @@ const throwError_1 = __importDefault(require("./lib/throwError"));
 const getRoutes_1 = __importDefault(require("./lib/getRoutes"));
 const routes = getRoutes_1.default();
 app.use(cors_1.default({
-    origin: process.env.NODE_ENV === 'development' ? '*' : 'https://marktwo.net'
+    origin: process.env.NODE_ENV === 'development' ? '*' : 'https://www.marktwo.net',
 }));
 app.use(bodyParser.json({ extended: true }));
 routes.forEach((data) => {

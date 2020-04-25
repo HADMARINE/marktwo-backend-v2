@@ -9,7 +9,7 @@ const MONGO_URL = 'mongodb://' + process.env.DB_HOST;
 const env = process.env.NODE_ENV || 'development';
 const auth = {
     user: process.env.DB_USER,
-    pass: process.env.DB_PASS
+    pass: process.env.DB_PASS,
 };
 const mongoURL = MONGO_URL;
 let dbName = process.env.DB_NAME;

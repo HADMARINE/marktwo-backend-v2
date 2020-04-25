@@ -73,7 +73,11 @@ router.post('/verify', (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         catch (e) {
             return throwError_1.default('토큰 검증에 실패했습니다.', 403);
         }
-        res.status(200).json({ userid: tokenValue.userId });
+        const user = yield User_1.default.findOne({ uid: tokenValue.userId }).exec();
+        if (!user) {
+            return throwError_1.default('유저가 존재하지 않습니다.', 404);
+        }
+        res.status(200).json(Object.assign({}, user._doc));
     }
     catch (e) {
         next(e);

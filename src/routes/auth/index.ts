@@ -18,7 +18,7 @@ router.post('/', async (req: any, res: any, next: any) => {
 
     const { uid, password, userip } = req.body;
     if (!uid || !password || !userip) {
-      console.log(uid,password,userip)
+      console.log(uid, password, userip);
       throwError('필수 항목이 입력되지 않았습니다.', 400);
     }
 
@@ -76,7 +76,11 @@ router.post('/verify', async (req, res, next) => {
     } catch (e) {
       return throwError('토큰 검증에 실패했습니다.', 403);
     }
-    res.status(200).json({ userid: tokenValue.userId });
+    const user: any = await User.findOne({ uid: tokenValue.userId }).exec();
+    if (!user) {
+      return throwError('유저가 존재하지 않습니다.', 404);
+    }
+    res.status(200).json({ ...user._doc });
   } catch (e) {
     next(e);
   }

@@ -6,6 +6,7 @@ import throwError from '../../lib/throwError';
 import util from 'util';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
+import verifyUser from '../../lib/util/verifyUser';
 
 // const User = require('../../lib/models/User');
 import User, { UserDocument } from '../../lib/models/User';
@@ -61,6 +62,15 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const userData = await verifyUser(req.headers);
+//     return userData;
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 router.post('/:id/modify', async (req, res, next) => {
   try {
     res.send('id : ' + req.params.id + ' ||| NOT READY...');
@@ -114,10 +124,9 @@ router.post('/data', async (req, res, next) => {
       return throwError('토큰 검증에 실패했습니다', 403);
     }
 
-    // tslint:disable-next-line: await-promise
-    const user: any = await User.findOne({ uid: tokenValue.userId }).select(
-      'uid name email'
-    );
+    const user: any = await User.findOne({ uid: tokenValue.userId })
+      .select('uid name email')
+      .exec();
 
     if (!user) {
       return throwError('유저가 존재하지 않습니다.', 404);

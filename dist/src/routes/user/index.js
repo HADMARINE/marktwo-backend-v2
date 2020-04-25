@@ -62,6 +62,14 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         next(e);
     }
 }));
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const userData = await verifyUser(req.headers);
+//     return userData;
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 router.post('/:id/modify', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         res.send('id : ' + req.params.id + ' ||| NOT READY...');
@@ -110,8 +118,9 @@ router.post('/data', (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         catch (e) {
             return throwError_1.default('토큰 검증에 실패했습니다', 403);
         }
-        // tslint:disable-next-line: await-promise
-        const user = yield User_1.default.findOne({ uid: tokenValue.userId }).select('uid name email');
+        const user = yield User_1.default.findOne({ uid: tokenValue.userId })
+            .select('uid name email')
+            .exec();
         if (!user) {
             return throwError_1.default('유저가 존재하지 않습니다.', 404);
         }

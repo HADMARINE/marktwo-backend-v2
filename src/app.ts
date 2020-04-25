@@ -11,7 +11,8 @@ const routes = getRoutes();
 
 app.use(
   cors({
-    origin: process.env.NODE_ENV === 'development' ? '*' : 'https://marktwo.net'
+    origin:
+      process.env.NODE_ENV === 'development' ? '*' : 'https://www.marktwo.net',
   })
 );
 app.use(bodyParser.json({ extended: true }));
@@ -42,7 +43,7 @@ app.use((error: any, req: any, res: any, next: any) => {
   res.status(status).json({
     status,
     message,
-    ...data
+    ...data,
   });
 });
 
